@@ -1,0 +1,20 @@
+import { dd2dms, format } from 'latlng-conv';
+
+export const converter = (lat, lang) => {
+  const lat_dms = dd2dms(lat);
+  const lang_dms = dd2dms(lang);
+  const dms_lat = {
+    dms_lat: format({
+      degrees: lat_dms.degrees,
+      minutes: lat_dms.minutes,
+      seconds: lat_dms.seconds,
+    }),
+    dms_lang: format({
+      degrees: lang_dms.degrees,
+      minutes: lang_dms.minutes,
+      seconds: lang_dms.seconds,
+    }),
+  };
+  console.log(dms_lat);
+  return dms_lat;
+};

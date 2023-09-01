@@ -1,0 +1,26 @@
+body {
+  font-family: 'League Spartan';
+  font-size: 20px;
+  margin: 0;
+}
+* {
+  margin: 0;
+}
+.App {
+  background-color: #efefef;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 84px;
+}
+.converter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.latlong-container {
+  display: flex;
+  column-gap: 12px;
+}
