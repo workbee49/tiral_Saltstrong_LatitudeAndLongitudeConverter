@@ -15,6 +15,5 @@ export const converter = (lat, lang) => {
       seconds: lang_dms.seconds,
     }),
   };
-  console.log(dms_lat);
   return dms_lat;
 };

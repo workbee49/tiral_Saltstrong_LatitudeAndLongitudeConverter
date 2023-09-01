@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
 import Input from './components/Input';
 import Button from './components/Button';
+import CheckBox from './components/CheckBox';
 import Map from './components/Map';
 
 import { converter } from './utils/converter';
 import { API_SERVER } from './config/constants';
 
+import { Tampa_Bay } from './config/constants';
+
 function App() {
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(Tampa_Bay.lat);
+  const [longitude, setLongitude] = useState(Tampa_Bay.lng);
   const [dmslatitude, setDmslatitude] = useState(0);
   const [dmslongitude, setDmslongitude] = useState(0);
-  const [showMap, setShowMap] = useState(false);
+  const [showMarker, setShowMarker] = useState(false);
+
+  useEffect(() => {
+    convertLatLang();
+  }, []);
 
   const convertLatLang = () => {
     const lat_lang = converter(latitude, longitude);
@@ -34,7 +41,6 @@ function App() {
           },
         })
         .then(function (response) {
-          console.log(response);
           if (response.status) {
             alert(response.data);
           } else {
@@ -51,15 +57,17 @@ function App() {
 
   return (
     <div className='App'>
-      <div className='converter-container'>
+      <div className='converter-container card'>
         <div className='latlong-container'>
           <Input
             name='Latitude'
+            type='number'
             setLatLong={setLatitude}
             inputValue={latitude}
           />
           <Input
             name='Longitude'
+            type='number'
             setLatLong={setLongitude}
             inputValue={longitude}
           />
@@ -70,10 +78,8 @@ function App() {
         </div>
         <Button value='Convert' onClick={convertLatLang} />
         <Button value='Save to DB' onClick={saveToDB} />
-        <Button value='Show Map' onClick={() => setShowMap(true)} />
-        {showMap === true ? (
-          <Map latitude={latitude} longitude={longitude} />
-        ) : null}
+        <CheckBox setShowMarker={setShowMarker} />
+        <Map lat={latitude} lng={longitude} showMarker={showMarker} />
       </div>
     </div>
   );
