@@ -1,14 +1,41 @@
-import React from 'react';
-import GoogleMapReact from 'google-map-react';
+import React, { useState, useEffect } from 'react';
+import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const MapComponent = (props) => {
+  const { lat, lng, showMarker } = props;
+  const [markerLocation, setMarkerLocation] = useState({
+    lat,
+    lng,
+  });
 
-export default function Map({ latitude, longitude }) {
+  // Update marker location
+  const handleMarkerDragEnd = (e) => {
+    setMarkerLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+  };
+
+  useEffect(() => {
+    setMarkerLocation({ lat, lng });
+  }, [props]);
+
   return (
-    <div style={{ height: 200, width: 184 }}>
-      <GoogleMapReact bootstrapURLKeys={{ key: 'google map api key here..' }}>
-        <AnyReactComponent lat={latitude} lng={longitude} text='Marker' />
-      </GoogleMapReact>
-    </div>
+    <LoadScript googleMapsApiKey='Google map API key'>
+      <GoogleMap
+        id='example-map'
+        mapContainerStyle={{ height: '400px', width: '422px' }}
+        zoom={13}
+        center={markerLocation}
+      >
+        {showMarker && (
+          <MarkerF
+            id='marker'
+            position={markerLocation}
+            draggable={true}
+            onDragEnd={handleMarkerDragEnd}
+          />
+        )}
+      </GoogleMap>
+    </LoadScript>
   );
-}
+};
+
+export default MapComponent;
